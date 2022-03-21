@@ -11,7 +11,7 @@ const Detail: VFC = () => {
   const { name } = useParams();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { ownedPokemons, updateOwnedPokemons } = usePokemonContext();
+  const { updateOwnedPokemons } = usePokemonContext();
 
   const toggleModal = () => setShowModal(prev => !prev);
 
@@ -21,8 +21,6 @@ const Detail: VFC = () => {
     updateOwnedPokemons(pokemon);
     toggleModal();
   };
-
-  console.log(ownedPokemons);
 
   return (
     <div className="detail page">
