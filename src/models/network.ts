@@ -1,4 +1,4 @@
-import { PokemonItem } from "./pokemon";
+import { Pokemon, PokemonItem } from "./pokemon";
 
 export interface ListParams {
   limit: number;
@@ -15,5 +15,11 @@ export interface ListResponseData {
       prevUrl: string;
     }
   };
+  error: unknown;
+}
+
+export interface DetailResponseData {
+  loading: boolean;
+  data: Pokemon;
   error: unknown;
 }
