@@ -1,0 +1,17 @@
+.list {
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+
+    .action-wrapper {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+  }
+
+  &-item {
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+  }
+}
