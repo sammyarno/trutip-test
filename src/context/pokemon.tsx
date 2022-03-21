@@ -3,12 +3,14 @@ import { OwnedPokemon } from "../models/pokemon";
 
 interface PokemonContextData {
   ownedPokemons: OwnedPokemon[];
-  updateOwnedPokemons: (pokemon: OwnedPokemon) => void;
+  addOwnedPokemons: (pokemon: OwnedPokemon) => void;
+  removeOwnedPokemon: (pokemonId: number) => void;
 };
 
 const initialState: PokemonContextData = {
   ownedPokemons: [],
-  updateOwnedPokemons: () => {},
+  addOwnedPokemons: () => {},
+  removeOwnedPokemon: () => {},
 };
 
 export const PokemonContext = createContext<PokemonContextData>(initialState);
@@ -20,11 +22,16 @@ export const PokemonProvider = ({ children }: { children: ReactNode }) => {
     setOwnedPokemons(prev => prev.concat(pokemon));
   };
 
+  const handleRemovePokemon = (pokemonId: number) => {
+    setOwnedPokemons(prev => prev.filter((x: OwnedPokemon) => x.id !== pokemonId));
+  }
+
   return (
     <PokemonContext.Provider 
       value={{ 
         ownedPokemons, 
-        updateOwnedPokemons: handleSetOwnedPokemons
+        addOwnedPokemons: handleSetOwnedPokemons,
+        removeOwnedPokemon: handleRemovePokemon,
       }}
     >
       {children}

@@ -5,10 +5,12 @@ import qs from 'query-string';
 import useFetchPokemons from "../hooks/useFetchPokemons";
 import '../styles/list.scss';
 import { DATA_PER_PAGE } from "../utils/constants";
+import { usePokemonContext } from "../context/pokemon";
 
 const List: VFC = () => {
   const { loading, data, refetch } = useFetchPokemons();
   const navigate = useNavigate();
+  const { ownedPokemons } = usePokemonContext();
 
   const handlePokemonClick = (name = '') => {
     navigate(`/detail/${name}`);
@@ -25,11 +27,8 @@ const List: VFC = () => {
 
   return (
     <div className="list page">
-      <h1 className="mb-3">
-        Pokemon List
-        <br/>
-        <h6 className="text-muted">owned: 3</h6>
-      </h1>
+      <h1>Pokemon List</h1>
+      <h6 className="text-muted mb-3">owned: {ownedPokemons.length}</h6>
       <p className="text-end mb-3">
         <small>
           Results: {loading ? <Placeholder xs={1} /> : data.meta.count}

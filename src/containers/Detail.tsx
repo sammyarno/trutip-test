@@ -11,14 +11,14 @@ const Detail: VFC = () => {
   const { name } = useParams();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { updateOwnedPokemons } = usePokemonContext();
+  const { addOwnedPokemons } = usePokemonContext();
 
   const toggleModal = () => setShowModal(prev => !prev);
 
   const { loading, data } = useFetchPokemon(name);
 
   const handleSubmitPokemon = (pokemon: OwnedPokemon) => {
-    updateOwnedPokemons(pokemon);
+    addOwnedPokemons(pokemon);
     toggleModal();
   };
 
