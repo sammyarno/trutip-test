@@ -18,7 +18,9 @@ h1, h2, h3, h4, h5, h6, p, a {
 }
 
 .page {
+  position: relative;
   width: 100%;
-  min-height: 70vh;
+  height: calc(100vh - 41px);
   padding: 1rem .5rem;
+  overflow-y: auto;
 }
