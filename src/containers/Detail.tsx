@@ -1,7 +1,8 @@
 import { useState, VFC } from "react";
 import { Button, Col, Row, Spinner } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PokemonModal from "../components/PokemonModal";
+import { usePokemonContext } from "../context/pokemon";
 import useFetchPokemon from "../hooks/useFetchPokemon";
 import { OwnedPokemon } from "../models/pokemon";
 import '../styles/detail.scss';
@@ -9,18 +10,26 @@ import '../styles/detail.scss';
 const Detail: VFC = () => {
   const { name } = useParams();
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const { ownedPokemons, updateOwnedPokemons } = usePokemonContext();
 
   const toggleModal = () => setShowModal(prev => !prev);
 
   const { loading, data } = useFetchPokemon(name);
 
   const handleSubmitPokemon = (pokemon: OwnedPokemon) => {
+    updateOwnedPokemons(pokemon);
     toggleModal();
   };
 
+  console.log(ownedPokemons);
+
   return (
     <div className="detail page">
-       <h1 className="text-capitalize mb-3">
+      <div className="text-start mb-3">
+        <small className="text-success" onClick={() => navigate('/')}>go back</small>
+      </div>
+      <h1 className="text-capitalize mb-3">
         {name}
       </h1>
       {
