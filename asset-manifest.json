@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/trutip-test/static/css/main.d1bfadec.css",
-    "main.js": "/trutip-test/static/js/main.66d04c8f.js",
+    "main.js": "/trutip-test/static/js/main.731e9d3d.js",
     "index.html": "/trutip-test/index.html"
   },
   "entrypoints": [
     "static/css/main.d1bfadec.css",
-    "static/js/main.66d04c8f.js"
+    "static/js/main.731e9d3d.js"
   ]
 }
