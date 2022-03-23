@@ -1,26 +1,44 @@
-import { useState, VFC } from "react";
+import { useCallback, useEffect, useState, VFC } from "react";
 import { Button, Col, Row, Spinner } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import PokemonModal from "../components/PokemonModal";
-import { usePokemonContext } from "../context/pokemon";
-import useFetchPokemon from "../hooks/useFetchPokemon";
+// import { usePokemonContext } from "../context/pokemon";
+// import useFetchPokemon from "../hooks/useFetchPokemon";
 import { OwnedPokemon } from "../models/pokemon";
+import { ReduxStore } from "../models/store";
+import { dispatch } from "../store";
+import { fetchPokemonDetail, setOwnedPokemon } from "../store/pokemon/actions";
 import '../styles/detail.scss';
 
 const Detail: VFC = () => {
   const { name } = useParams();
   const [showModal, setShowModal] = useState(false);
+  const { pokemonList, ownedPokemons } = useSelector((store: ReduxStore) => store.pokemon);
+  const { selected: data } = pokemonList;
+
   const navigate = useNavigate();
-  const { addOwnedPokemons } = usePokemonContext();
+  // const { addOwnedPokemons } = usePokemonContext();
 
   const toggleModal = () => setShowModal(prev => !prev);
 
-  const { loading, data } = useFetchPokemon(name);
+  // const { loading, data } = useFetchPokemon(name);
+
+  const getData = useCallback(async () => {
+    dispatch(await fetchPokemonDetail(name));
+  }, [name]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const handleSubmitPokemon = (pokemon: OwnedPokemon) => {
-    addOwnedPokemons(pokemon);
+    // addOwnedPokemons(pokemon);
+    dispatch(setOwnedPokemon(pokemon));
     toggleModal();
   };
+
+  console.log('ownedPokemons', ownedPokemons);
 
   return (
     <div className="detail page">
@@ -31,7 +49,7 @@ const Detail: VFC = () => {
         {name}
       </h1>
       {
-        loading
+        !data
         ? (
           <div className="text-center">
             <Spinner animation="border" size="sm" />  
@@ -70,7 +88,11 @@ const Detail: VFC = () => {
           </>
         )
       }
-      <PokemonModal show={showModal} onClose={toggleModal} data={data} onSubmit={handleSubmitPokemon} />
+      {
+        data && (
+          <PokemonModal show={showModal} onClose={toggleModal} data={data} onSubmit={handleSubmitPokemon} />
+        )
+      }
     </div>
   );
 };
